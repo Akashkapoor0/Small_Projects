@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="/style.css">
+    <script>
+        function autoGrow(textarea) {
+            textarea.style.height = 'auto';
+            textarea.style.height = textarea.scrollHeight + 'px';
+        }
+    </script>
+</head>
+<body>
+    <h1>Edit Your Post</h1>
+    <p>User ID: <%= post.id %></p>
+    <p>Username: @<%= post.username %></p>
+    
+    <form method="post" action="/posts/<%= post.id %>?_method=PATCH">
+        <textarea 
+            name="content" 
+            placeholder="Write your updated post here"
+            oninput="autoGrow(this)"
+            rows="1"
+        ><%= post.content %></textarea>
+        <br>
+        <button>Submit</button>
+    </form>
+</body>
+</html>
