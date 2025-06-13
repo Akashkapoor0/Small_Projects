@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Messages</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .chat-message {
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #eaf1ff;
+            transition: background-color 0.3s ease;
+        }
+        .chat-message .from-to {
+            font-weight: bold;
+            color: #333;
+        }
+        .chat-message .msg {
+            margin-top: 8px;
+            font-size: 1.1em;
+        }
+        .chat-message .created_at {
+            font-size: 0.8em;
+            color: gray;
+            margin-top: 10px;
+        }
+        .buttons {
+            margin-top: 10px;
+        }
+        .buttons form {
+            display: inline;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            margin-right: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .new-chat-btn {
+            background-color: #28a745;
+            margin-bottom: 15px;
+        }
+        .new-chat-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <h1>💬 Chat Messages</h1>
+    <div class="chat-container">
+        <form method="GET" action="/chats/new">
+            <button class="new-chat-btn">➕ New Chat</button>
+        </form>
+
+        <% 
+        const userColors = {
+            'Neha': '#d1f7c4',
+            'Priya': '#f1e0ff',
+            'Alice': '#ffecb3',
+            'Bob': '#e3f2fd',
+            'John': '#f5d3e3',
+            'Sara': '#cce7ff',
+            'Tom': '#d0f0c0'
+        };
+        const getUserColor = (user) => userColors[user] || '#e0e0e0';
+        %>
+
+        <% for (let chat of chats) { %>
+            <div class="chat-message" style="background-color: <%= getUserColor(chat.from) %>">
+                <div class="from-to"><%= chat.from %> → <%= chat.to %></div>
+                <div class="msg"><%= chat.msg %></div>
+                <div class="buttons">
+                    <form method="GET" action="/chats/<%= chat._id %>/edit">
+                        <button>📝 Edit</button>
+                    </form>
+                    <form method="POST" action="/chats/<%= chat._id %>?_method=DELETE">
+                        <button>🗑️ Delete</button>
+                    </form>
+                </div>
+                <div class="created_at"><%= chat.created_at.toLocaleString() %></div>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>
